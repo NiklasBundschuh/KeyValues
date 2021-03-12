@@ -10,6 +10,12 @@ from flask_cors import CORS
 app = Flask(__name__)
 api = Api(app)
 CORS(app)
+cors = CORS(app, resources={
+    r"/*": {
+        "origins": "http://localhost:8080/"
+    }
+})
+
 
 
 class HeaderDictAPI(Resource):
@@ -68,17 +74,16 @@ def main():
 
 
     @app.route('/api/v1/csv/channel', methods=['POST', 'GET'])
+  
     def webInput():
         item = ""
         if request.method == 'POST':
-            item = request.form['item']
+            item = request.form['dataForm']
         else:
-            item = request.args.get('item')
-        print(item)
-            
-    
+            item = request.args.get('dataForm')
+        print(item)    
+   
     app.run(port=1339, debug=True)
-    webInput()
 
 
      
