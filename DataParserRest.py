@@ -1,7 +1,7 @@
 from flask import json
 from Key_Values import parseKeyValueFile
 import flask
-from flask import Flask , jsonify
+from flask import Flask , jsonify, render_template
 from flask.globals import request
 from flask_restful import Resource, Api 
 from flask_cors import CORS
@@ -41,12 +41,18 @@ class DataChannelAPI(Resource):
     def get(self):
         # extract index from request
         index = 0
-
+        data = []
+        for items in self.dataList:
+            data.append(items.title())
         # check index for range
 
         #return datachannel
-        return jsonify({"channel": self.dataList[index]})
+        return jsonify({"channel": data[index]})
 
+
+
+    
+    
 def main():
 
     # create the variables
@@ -59,8 +65,20 @@ def main():
     api.add_resource(FooterDictAPI, '/api/v1/csv/footer', resource_class_kwargs={'fdict':footerDict})
     api.add_resource(DataListAPI, '/api/v1/csv/data', resource_class_kwargs={'dlist':dataList})
     api.add_resource(DataChannelAPI, '/api/v1/csv/channel', resource_class_kwargs={'dlist' :dataList})
-    app.run(port=1339, debug=True)
 
+
+    @app.route('/api/v1/csv/channel', methods=['POST', 'GET'])
+    def webInput():
+        item = ""
+        if request.method == 'POST':
+            item = request.form['item']
+        else:
+            item = request.args.get('item')
+        print(item)
+            
+    
+    app.run(port=1339, debug=True)
+    webInput()
 
 
      
