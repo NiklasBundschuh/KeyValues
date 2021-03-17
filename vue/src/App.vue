@@ -13,7 +13,7 @@
 </template>
 <script>
 
-  import axios from 'axios';
+  //import axios from 'axios';
   export default {
     name: 'App',
     data: () => ({
@@ -62,17 +62,10 @@
 
         var dataForm = new FormData
         dataForm.append("item", item)
-        axios({
-          method: "post",
-          url: "http://127.0.0.1:1339/api/v1/csv/channel",
-          data: dataForm
-        })
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(error =>{
-          console.log(error.response)
-        })
+        var channelUrl = "http://127.0.0.1:1339/api/v1/csv/channel/?item="+item;
+        let response = this.axios.get(channelUrl);
+        console.log(response);
+        //this.Header = response.data.channels;
       }
     }
   }

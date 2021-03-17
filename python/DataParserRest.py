@@ -1,20 +1,17 @@
 from flask import json
+from flask.templating import render_template
 from Key_Values import parseKeyValueFile
 import flask
-from flask import Flask , jsonify, render_template
+from flask import Flask , jsonify
 from flask.globals import request
 from flask_restful import Resource, Api 
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 
 app = Flask(__name__)
 api = Api(app)
 CORS(app)
-cors = CORS(app, resources={
-    r"/*": {
-        "origins": "http://localhost:8080/"
-    }
-})
+app.config['CORS_HEADERS'] = 'dataForm'
 
 
 
@@ -72,22 +69,18 @@ def main():
     api.add_resource(DataListAPI, '/api/v1/csv/data', resource_class_kwargs={'dlist':dataList})
     api.add_resource(DataChannelAPI, '/api/v1/csv/channel', resource_class_kwargs={'dlist' :dataList})
 
-
-    @app.route('/api/v1/csv/channel', methods=['POST', 'GET'])
-  
-    def webInput():
-        item = ""
-        if request.method == 'POST':
-            item = request.form['dataForm']
-        else:
-            item = request.args.get('dataForm')
-        print(item)    
-   
     app.run(port=1339, debug=True)
-
 
      
 
 if __name__ == '__main__': 
     main()
-    
+
+
+
+@app.route('/api/v1/csv/channel/', methods=['GET'])
+def channel():
+    item = ""
+    item = request.args.get('item')
+    return item
+print(item)
