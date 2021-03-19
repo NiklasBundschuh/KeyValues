@@ -62,7 +62,7 @@
 
         var dataForm = new FormData
         dataForm.append("item", item)
-        var channelUrl = "http://127.0.0.1:1339/api/v1/csv/channel/?item="+item;
+        var channelUrl = "http://127.0.0.1:1339/api/v1/csv/channel?item="+item;
         let response = this.axios.get(channelUrl);
         console.log(response);
         //this.Header = response.data.channels;

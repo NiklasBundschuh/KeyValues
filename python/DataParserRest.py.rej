@@ -1,0 +1,29 @@
+diff a/python/DataParserRest.py b/python/DataParserRest.py	(rejected hunks)
+@@ -71,16 +77,20 @@
+ 
+     app.run(port=1339, debug=True)
+ 
+-     
++# @app.route('/api/v1/csv/channel')
++#def channel():
++#    item = ""
++#    item = request.args.get('item')
++#    print(item)  
++#
++#    for items in self.dataList:
++#        data.append(items.title())
++#
++#    return item
+ 
+ if __name__ == '__main__': 
+     main()
+ 
+ 
+ 
+-@app.route('/api/v1/csv/channel/', methods=['GET'])
+-def channel():
+-    item = ""
+-    item = request.args.get('item')
+-    return item
+-print(item)
++
