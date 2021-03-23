@@ -9,11 +9,14 @@
       <select id ="Header" size="1" @change="changeItem">
       </select>
     </ul>
+    <div class="action">
+      <app-diagram></app-diagram>
+  </div>
   </div>
 </template>
 <script>
 
-  //import axios from 'axios';
+  
   export default {
     name: 'App',
     data: () => ({
@@ -25,7 +28,7 @@
 
     methods: {
       async loadHeader(){
-        //var invocation = new XMLHttpRequest();
+        
         
         this.loading = true;
         let apiUrl = 'http://127.0.0.1:1339/api/v1/csv/data';
@@ -65,7 +68,7 @@
         var channelUrl = "http://127.0.0.1:1339/api/v1/csv/channel?item="+item;
         let response = this.axios.get(channelUrl);
         console.log(response);
-        //this.Header = response.data.channels;
+        
       }
     }
   }
@@ -73,6 +76,7 @@
 </script>
 
 <style>
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -81,6 +85,12 @@
   color: #2c3e50;
   margin-top: 60px;
 }
+  .action{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
  /*The CSS code for the loading animation */
   .lds-roller {
     display: inline-block;

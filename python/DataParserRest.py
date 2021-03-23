@@ -29,6 +29,7 @@ class FooterDictAPI(Resource):
     def get(self):
         return{'footer': self.__footerDict}
 
+
 class DataListAPI(Resource):
     def __init__(self, dlist):
         self.dataList = dlist
@@ -38,28 +39,24 @@ class DataListAPI(Resource):
             channelList.append(item.title())
         return jsonify({"channels": channelList})
 
+
 class DataChannelAPI(Resource):
     def __init__(self, dlist):
         self.dataList = dlist
         self.parser = reqparse.RequestParser()
         self.parser.add_argument('item')   
+    def get(self):
+        # extract index from request
         args = self.parser.parse_args()
         value = args.get('item')
-        self.get(value)
-
-    def get(self, value):
-        # extract index from request
-
-        index = 0
-        for items in self.dataList:
-            if value == items.title():
-                index += 1
-                return jsonify({"Channel"[index]: items.data()})
-            index += 1
-        # check index for range
-
+        data = []
+        for item in self.dataList:
+            if value == item.title():
+                data = item.data()
+                break
+    
         #return datachannel
-        
+        return jsonify({"channel": { "title": value, "samplerate": 1.0, "count": len(data), "data" :data}})
 
 
 
@@ -76,7 +73,7 @@ def main():
     api.add_resource(HeaderDictAPI, '/api/v1/csv/header', resource_class_kwargs={'hdict':headerDict})
     api.add_resource(FooterDictAPI, '/api/v1/csv/footer', resource_class_kwargs={'fdict':footerDict})
     api.add_resource(DataListAPI, '/api/v1/csv/data', resource_class_kwargs={'dlist':dataList})
-    api.add_resource(DataChannelAPI, '/api/v1/csv/channel', resource_class_kwargs={'dlist' :dataList})
+    api.add_resource(DataChannelAPI, '/api/v1/csv/channel', resource_class_kwargs={'dlist':dataList})
     
     app.run(port=1339, debug=True)
 
@@ -86,10 +83,3 @@ if __name__ == '__main__':
     main()
 
 
-
-#@app.route('/api/v1/csv/channel/', methods=['GET'])
-#def channel():
-    #item = ""
-    #item = request.args.get('id')
-    #return item
-    #print(item)

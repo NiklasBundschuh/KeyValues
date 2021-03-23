@@ -1,5 +1,7 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from 'vue';
+import App from './App.vue';
+import diagram from './diagram.vue';
+Vue.component('app-diagram', diagram);
 
 Vue.config.productionTip = false
 
