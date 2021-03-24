@@ -3,26 +3,36 @@
   <div id="app">
     <div class="lds-roller" v-if="loading"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
     <h1>KeyValues</h1>
-    <button @click="loadHeader">HeaderDict</button> 
-    <hr>
+    <button @click="loadHeader">HeaderDict</button>
     <ul>   
       <select id ="Header" size="1" @change="changeItem">
       </select>
     </ul>
     <div class="action">
-      <app-diagram></app-diagram>
+      <app-diagram :channel="item"></app-diagram>
   </div>
+  <diagram channel = item></diagram>
   </div>
 </template>
 <script>
+//import Diagram from './diagram.vue';
+//import diagram from './diagram.vue'
 
   
   export default {
     name: 'App',
+    components: {
+      diagram
+        
+    },
     data: () => ({
       loading: false,
       Header: [],
-      data: []
+      data: [],
+      return: {
+        item: ""
+      }
+      
 
     }),
 
@@ -56,11 +66,11 @@
         this.loading = false;
       },
  
-      changeItem(){
+      changeItem(item){
         //get reference of section in HTML
         var channelSection = document.getElementById("Header");
         var index = channelSection.selectedIndex;
-        var item = channelSection.options[index].text;
+        item = channelSection.options[index].text;
         console.log(item);
 
         var dataForm = new FormData
@@ -68,6 +78,7 @@
         var channelUrl = "http://127.0.0.1:1339/api/v1/csv/channel?item="+item;
         let response = this.axios.get(channelUrl);
         console.log(response);
+        return item
         
       }
     }
