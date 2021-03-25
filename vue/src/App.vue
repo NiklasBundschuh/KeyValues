@@ -9,37 +9,25 @@
       </select>
     </ul>
     <div class="action">
-      <app-diagram :channel="item"></app-diagram>
+      <app-diagram></app-diagram>
   </div>
-  <diagram channel = item></diagram>
   </div>
 </template>
 <script>
-//import Diagram from './diagram.vue';
-//import diagram from './diagram.vue'
+
 
   
   export default {
     name: 'App',
-    components: {
-      diagram
-        
-    },
     data: () => ({
       loading: false,
       Header: [],
       data: [],
-      return: {
-        item: ""
-      }
-      
-
+      item: ""
     }),
 
     methods: {
       async loadHeader(){
-        
-        
         this.loading = true;
         let apiUrl = 'http://127.0.0.1:1339/api/v1/csv/data';
         console.log("Header Button wurde geklickt");
