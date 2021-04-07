@@ -5,25 +5,32 @@
     <h1>KeyValues</h1>
     <button @click="loadHeader">HeaderDict</button>
     <ul>   
-      <select id ="Header" size="1" @change="changeItem">
+      <select id ="Header" size="5" @change="changeItem">
       </select>
     </ul>
     <div class="action">
-      <app-diagram></app-diagram>
+      <diagram :diagramInput="Channeldata" :channelLabel="item"></diagram>
   </div>
   </div>
 </template>
 <script>
+import Vue from 'vue';
 
 
-  
+
+  //<app-diagram :diagramInput='Channeldata'></app-diagram>
   export default {
     name: 'App',
     data: () => ({
       loading: false,
       Header: [],
       data: [],
-      item: ""
+      item: "",
+      Channeldata: []
+      
+      
+      
+      
     }),
 
     methods: {
@@ -54,19 +61,28 @@
         this.loading = false;
       },
  
-      changeItem(item){
+      changeItem(){
         //get reference of section in HTML
         var channelSection = document.getElementById("Header");
         var index = channelSection.selectedIndex;
-        item = channelSection.options[index].text;
-        console.log(item);
+        this.item = channelSection.options[index].text;
+        console.log(this.item);
 
         var dataForm = new FormData
-        dataForm.append("item", item)
-        var channelUrl = "http://127.0.0.1:1339/api/v1/csv/channel?item="+item;
-        let response = this.axios.get(channelUrl);
-        console.log(response);
-        return item
+        dataForm.append("item", this.item)
+        var channelUrl = "http://127.0.0.1:1339/api/v1/csv/channel?item="+this.item;
+        Vue.axios.get(channelUrl)
+        .then((response)=>{
+          this.Channeldata = response.data.channel.data
+        
+          
+        })
+        
+        
+
+
+        //var diagram = document.getElementById("app-diagram");
+        //diagram
         
       }
     }
